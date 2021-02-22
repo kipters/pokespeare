@@ -12,5 +12,6 @@
     "tintoy.msbuild-project-tools",
     "logerfo.sln-support"
   ],
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "postCreateCommand": [ "/workspace/.devcontainer/init.sh" ]
 }

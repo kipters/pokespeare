@@ -3,7 +3,9 @@ services:
   dev:
     user: vscode
     build: .
-    environment: 
+    environment:
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=SecurePwdGoesHere
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/certs/devcert.pfx
       - DOTNET_ENVIRONMENT=Development
       - DOTNET_NOLOGO=1
     volumes: 

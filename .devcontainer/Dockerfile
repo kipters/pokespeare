@@ -36,12 +36,24 @@ RUN apt-get autoremove -y \
 
 # This is needed for Global Tools to work
 USER ${USERNAME}
-ENV PATH="${PATH}:/root/.dotnet/tools"
+ENV PATH="${PATH}:/home/${USERNAME}/.dotnet/tools"
 # Install .NET Global Tools
 RUN dotnet tool install -g dotnet-format \
     && dotnet tool install -g microsoft.dotnet-httprepl
 
 USER root
+RUN openssl req -x509 -newkey rsa:4096 -keyout /tmp/devcert_key.pem -out /tmp/devcert.pem -days 30 \
+    -passin pass:SecurePwdGoesHere -passout pass:SecurePwdGoesHere -subj "/CN=localhost" \
+    && openssl pkcs12 -export -out /tmp/devcert.pfx -inkey /tmp/devcert_key.pem -in /tmp/devcert.pem \
+    -passin pass:SecurePwdGoesHere -passout pass:SecurePwdGoesHere \
+    && openssl pkcs12 -in /tmp/devcert.pfx -clcerts -nokeys -out /tmp/devcert.crt -passin pass:SecurePwdGoesHere \
+    && mkdir /certs \
+    && cp /tmp/devcert* /certs \
+    && chown ${USERNAME} /certs/devcert* \
+    && cp /tmp/devcert.crt /usr/local/share/ca-certificates \
+    && chmod 755 /usr/local/share/ca-certificates/devcert.crt \
+    && update-ca-certificates \
+    && rm /tmp/devcert* 
 
 ENV DEBIAN_FRONTEND=dialog
 
