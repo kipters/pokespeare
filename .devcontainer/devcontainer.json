@@ -1,0 +1,16 @@
+{
+  "name": "Pokespeare",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "dev",
+  "shutdownAction": "stopCompose",
+  "workspaceFolder": "/workspace",
+  "extensions": [
+    "ms-dotnettools.csharp",
+    "ms-azuretools.vscode-docker",
+    "editorconfig.editorconfig",
+    "eamodio.gitlens",
+    "tintoy.msbuild-project-tools",
+    "logerfo.sln-support"
+  ],
+  "remoteUser": "vscode"
+}
