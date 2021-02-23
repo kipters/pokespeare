@@ -1,0 +1,17 @@
+<Project>
+  <PropertyGroup>
+    <Deterministic>True</Deterministic>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <Version>1.0</Version>
+    <BuildId Condition=" '$(BuildId)' == '' ">local</BuildId>
+    <InformationalVersion>$(Version)-$(BuildId)-$(Configuration)</InformationalVersion>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>

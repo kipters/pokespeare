@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,10 +7,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
+#pragma warning disable CA1812 // This class is supposed to be never instantiated directly
+#pragma warning disable CA1822 // We don't want configuration methods to be static
 namespace Pokespeare
 {
-    public class Startup
+    internal class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -32,6 +36,7 @@ namespace Pokespeare
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pokespeare", Version = "v1" });
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,8 +52,6 @@ namespace Pokespeare
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

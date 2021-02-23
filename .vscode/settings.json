@@ -4,6 +4,11 @@
       80
     ]
   },
+  "[csharp]": {
+    "editor.rulers": [
+      120
+    ]
+  },
   "[json]": {
     "editor.detectIndentation": false,
     "editor.tabSize": 2,
