@@ -32,6 +32,7 @@ namespace Pokespeare
         {
 
             services.AddControllers();
+            services.AddHealthChecks();
             services.AddSwaggerGen(c =>
             {
                 var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
@@ -59,6 +60,7 @@ namespace Pokespeare
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/healthy");
                 endpoints.MapControllers();
             });
         }
