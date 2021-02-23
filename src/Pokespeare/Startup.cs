@@ -34,6 +34,10 @@ namespace Pokespeare
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
+                var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+                var xmlFile = $"{assemblyName}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pokespeare", Version = "v1" });
             });
 
