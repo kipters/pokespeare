@@ -6,6 +6,7 @@
     "eamodio.gitlens",
     "tintoy.msbuild-project-tools",
     "logerfo.sln-support",
-    "ms-vscode-remote.vscode-remote-extensionpack"
+    "ms-vscode-remote.vscode-remote-extensionpack",
+    "formulahendry.dotnet-test-explorer"
   ]
 }

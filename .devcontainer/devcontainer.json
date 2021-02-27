@@ -10,7 +10,8 @@
     "editorconfig.editorconfig",
     "eamodio.gitlens",
     "tintoy.msbuild-project-tools",
-    "logerfo.sln-support"
+    "logerfo.sln-support",
+    "formulahendry.dotnet-test-explorer"
   ],
   "remoteUser": "vscode",
   "postCreateCommand": [ "/workspace/.devcontainer/init.sh" ]

@@ -10,4 +10,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <NoWarn>CA2007</NoWarn>
+    <!--
+        CA2007: We're sure this project won't need a SynchronizationContext, ConfigureAwait would be a nop
+    -->
+  </PropertyGroup>
+
 </Project>
