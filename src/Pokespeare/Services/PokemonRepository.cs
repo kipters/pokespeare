@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Pokespeare.Services
@@ -13,11 +14,13 @@ namespace Pokespeare.Services
     {
         private readonly ILogger<PokemonRepository> _logger;
         private readonly IPokeApi _api;
+        private readonly Regex _escapeCleanerRegex;
 
         public PokemonRepository(ILogger<PokemonRepository> logger, IPokeApi api)
         {
             _logger = logger;
             _api = api;
+            _escapeCleanerRegex = new Regex(@"[\n\t\f\a]", RegexOptions.Compiled);
         }
         public async Task<Monad<ICollection<string>>> GetDescriptionForSpecies(string name, string language)
         {
@@ -33,7 +36,7 @@ namespace Pokespeare.Services
                     apiResponse.Content
                         .FlavorTextEntries
                         .Where(e => e.Language.Name == language)
-                        .Select(e => e.Text)
+                        .Select(e => _escapeCleanerRegex.Replace(e.Text, " "))
                         .ToList()
                         )
             };

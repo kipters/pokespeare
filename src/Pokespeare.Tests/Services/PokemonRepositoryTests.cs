@@ -75,6 +75,33 @@ namespace Pokespeare.Tests.Services
             });
         }
 
+        [Theory]
+        [InlineData("With\nNew line", "With New line")]
+        [InlineData("With\fForm feed", "With Form feed")]
+        [InlineData("With\tTabulation", "With Tabulation")]
+        [InlineData("With\aA beep. Yes really.", "With A beep. Yes really.")]
+
+        public async Task ReturnedDescriptionsDontContainEscapeSequences(string escaped, string clean)
+        {
+            var textEntries = new Collection<FlavorText>
+            {
+                new FlavorText(escaped, new Language("en"), new Version("red")),
+            };
+            var species = new PokemonSpecies(textEntries);
+            using var response = new HttpResponseMessage(HttpStatusCode.OK);
+            using var apiResponse = new ApiResponse<PokemonSpecies>(response, species, new RefitSettings());
+
+            Api
+                .Setup(x => x.GetPokemonSpeciesAsync(It.IsAny<string>()))
+                .ReturnsAsync(apiResponse);
+
+            var result = await Repository.GetDescriptionForSpecies("dummy", "en");
+
+            Assert.Null(result.Exception);
+            Assert.NotNull(result.Result);
+            Assert.All(result.Result, t => Assert.Equal(clean, t));
+        }
+
         [Fact]
         public async Task ReturnsFailureIfApiFailsAsync()
         {
