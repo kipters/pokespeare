@@ -70,7 +70,7 @@ namespace Pokespeare.Tests.Controllers
 
             var result = await Controller.GetShakespeareanDescription(name);
 
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Theory]

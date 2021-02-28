@@ -58,8 +58,12 @@ namespace Pokespeare.Controllers
             return result switch
             {
                 { Result: not null } => Ok(new PokemonResponse(lowerCaseName, result.Result)),
-                { Exception: KeyNotFoundException knf } => BadRequest(),
-                { Exception: LimitExceededException le } => StatusCode(StatusCodes.Status429TooManyRequests),
+                { Exception: KeyNotFoundException } =>
+                    ValidationProblem(new ValidationProblemDetails(new Dictionary<string, string[]>
+                    {
+                        [nameof(name)] = new[] { "Invalid Pokémon species" }
+                    })),
+                { Exception: LimitExceededException } => StatusCode(StatusCodes.Status429TooManyRequests),
                 { Exception: Exception e } => throw new InvalidOperationException("Invalid result", e),
                 _ => throw new InvalidOperationException()
             };
