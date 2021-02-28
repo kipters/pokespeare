@@ -28,8 +28,8 @@ namespace Pokespeare.Services
 
             return apiResponse switch
             {
-                { Error: not null } => new Monad<ICollection<string>>(apiResponse.Error),
                 { StatusCode: HttpStatusCode.NotFound } => new Monad<ICollection<string>>(new KeyNotFoundException()),
+                { Error: not null } => new Monad<ICollection<string>>(apiResponse.Error),
                 { Content: null } => new Monad<ICollection<string>>(new KeyNotFoundException()),
 
                 _ => new Monad<ICollection<string>>(
