@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Pokespeare.Services
 {
+#pragma warning disable CA5394 // System.Random is more than enough here
     internal class PokemonDescriptionService : IPokemonDescriptionService
     {
         private readonly ILogger<PokemonDescriptionService> _logger;
