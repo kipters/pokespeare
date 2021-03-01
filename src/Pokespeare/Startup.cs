@@ -107,6 +107,11 @@ namespace Pokespeare
                     var cfg = s.GetRequiredService<IOptions<FunTranslationsConfig>>();
                     c.BaseAddress = cfg.Value.BaseUrl;
                     c.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
+
+                    if (cfg.Value.ShakespeareApiKey is not null)
+                    {
+                        c.DefaultRequestHeaders.Add("X-Funtranslations-Api-Secret", cfg.Value.ShakespeareApiKey);
+                    }
                 })
                 .ConfigureHttpMessageHandlerBuilder(b =>
                 {

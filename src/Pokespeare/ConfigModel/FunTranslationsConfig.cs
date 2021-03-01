@@ -11,5 +11,10 @@ namespace Pokespeare.ConfigModel
         /// BaseUrl for the api, defaults to https://api.funtranslations.com
         /// </summary>
         public Uri BaseUrl { get; set; } = new Uri("https://api.funtranslations.com");
+
+        /// <summary>
+        /// API Key for Shakespearean translations
+        /// </summary>
+        public string? ShakespeareApiKey { get; set; }
     }
 }
