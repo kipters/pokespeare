@@ -136,3 +136,12 @@ to enabled for 50% of requests.
 
 The project uses Serilog. Human-readable logs are output when running in
 `Development`. Otherwise, JSON-serialized structured logs are used.
+
+## TODO
+
+- Abstractions are a bit too leaky
+- The official Redis implementation of `IDistributedCache` is not using Redis
+efficiently (it doesn't use the SETEX command for expiration)
+- Add caching to descriptions retrieval from PokeApi
+- Add circuit breakers for temporary outages on PokeApi and FunTranslations
+- Add Github Actions
