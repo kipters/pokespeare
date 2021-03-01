@@ -1,12 +1,14 @@
 using FunTranslationsApi.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using PokeApi.Client;
+using Pokespeare.Common;
 using Pokespeare.ConfigModel;
 using Pokespeare.Services;
 using Refit;
@@ -45,7 +47,28 @@ namespace Pokespeare
 
             services.Configure<PokeApiConfig>(c => Configuration.GetSection("PokeApi").Bind(c));
             services.Configure<FunTranslationsConfig>(c => Configuration.GetSection("FunTranslations").Bind(c));
+            services.AddScoped<IPokemonRepository, PokemonRepository>();
+            services.AddScoped<IPokemonDescriptionService, PokemonDescriptionService>();
+            services.AddScoped<ITranslationService, TranslationService>();
 
+            ConfigureHttpClients(services);
+
+            var redisConnectionString = Configuration.GetConnectionString("Redis__");
+            if (redisConnectionString is null)
+            {
+                services.AddSingleton<IDistributedCache>(new NullDistributedCache());
+            }
+            else
+            {
+                services.AddStackExchangeRedisCache(o =>
+                {
+                    o.Configuration = redisConnectionString;
+                });
+            }
+        }
+
+        private static void ConfigureHttpClients(IServiceCollection services)
+        {
             var jsonOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = new JsonSnakeCaseNamingPolicy()
@@ -92,10 +115,6 @@ namespace Pokespeare
 
                     b.PrimaryHandler = policyHandler;
                 });
-
-            services.AddScoped<IPokemonRepository, PokemonRepository>();
-            services.AddScoped<IPokemonDescriptionService, PokemonDescriptionService>();
-            services.AddScoped<ITranslationService, TranslationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

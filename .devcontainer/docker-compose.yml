@@ -1,17 +1,22 @@
 version: '3'
-services: 
+services:
   dev:
     user: vscode
     build: .
     environment:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=SecurePwdGoesHere
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/certs/devcert.pfx
+      - CONNECTIONSTRINGS__REDIS=redis:6379
       - DOTNET_ENVIRONMENT=Development
       - DOTNET_NOLOGO=1
-    volumes: 
+    volumes:
       - ..:/workspace
       - /var/run/docker.sock:/var/run/docker.sock
     command: sleep infinity
-    ports: 
+    ports:
       - 5000:5000
       - 5001:5001
+  redis:
+    image: redis:6.0-alpine
+    ports:
+      - 6379:6379
