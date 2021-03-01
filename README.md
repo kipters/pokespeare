@@ -1,6 +1,6 @@
 # Pokespeare
 
-![Docker Hub](https://img.shields.io/docker/pulls/kipters/pokespeare)
+[![Docker Hub](https://img.shields.io/docker/pulls/kipters/pokespeare)](https://hub.docker.com/repository/docker/kipters/pokespeare)
 
 An API that, given a Pokémon name, returns its Shakespearean description.
 The main application code lives in `src/Pokespeare`.
