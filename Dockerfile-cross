@@ -1,0 +1,50 @@
+ARG IMAGE_TAG=5.0-alpine3.13
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:${IMAGE_TAG} as build-base
+ARG RUNTIME_ID=alpine
+ENV RUNTIME=${RUNTIME_ID}
+
+FROM build-base AS build-base-arm
+ENV RUNTIME=${RUNTIME}-arm
+
+FROM build-base AS build-base-arm64
+ENV RUNTIME=${RUNTIME}-arm64
+
+FROM build-base AS build-base-amd64
+ENV RUNTIME=${RUNTIME}-x64
+
+FROM --platform=$BUILDPLATFORM build-base-${TARGETARCH} as build-env
+ARG BUILD_ID=local
+ARG COMMIT_ID=dirty
+
+COPY ./src /src
+RUN dotnet publish \
+    --configuration Release \
+    --output /dist \
+    --runtime ${RUNTIME} \
+    -p:BuildId=${BUILD_ID} \
+    -p:SourceRevisionId=${COMMIT_ID} \
+    -p:PublishTrimmed=True \
+    src/Pokespeare
+
+FROM alpine
+RUN apk add --no-cache \
+    ca-certificates \
+    \
+    # .NET 5 Dependencies
+    krb5-libs \
+    libgcc \
+    libintl \
+    libssl1.1 \
+    libstdc++ \
+    zlib
+
+ENV \
+    # Configure web servers to bind to port 80 when present
+    ASPNETCORE_URLS=http://+:80 \
+    # Enable detection of running in a container
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+
+COPY --from=build-env /dist /app
+EXPOSE 80
+ENTRYPOINT [ "/app/Pokespeare" ]

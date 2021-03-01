@@ -71,6 +71,31 @@ assembly Version string. Defaults to `dirty`.
 - `RUNTIME_ID`: Change it according to `IMAGE_TAG`. Selects the target RID for
 the self-contained application build. Defaults to `alpine-x64`.
 
+A separate Dockerfile (`Dockerfile-cross`) is provided for cross-building images
+on different platforms.
+
+To use it, you need a machine able to use qemu/KVM and which is running at least
+Docker v19.
+
+[Docker Buildx docs](https://docs.docker.com/buildx/working-with-buildx/)
+
+If all requirements are met, create a build context with
+
+`docker buildx create --use`
+
+and build using the command
+
+`docker buildx build --platform {platforms} -o type=oci,dest- -f Dockerfile-cross . > out.tar`
+
+`platforms` is a comma-separated list of platforms to build for, supported ones
+are `linux/arm`, `linux/arm64` and `linux/amd64`.
+
+The resulting artifact will be a tarball containing all images in OCI format.
+
+The same build arguments are supported, with the exception of `RUNTIME_ID` which
+should not contain the architecture tag, thus its default will instead be just
+`alpine`.
+
 ## API Documentation
 When running on an environemnt configured as `Development`, OpenAPI
 documentation will be available at the following paths:
