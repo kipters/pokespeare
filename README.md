@@ -1,5 +1,7 @@
 # Pokespeare
 
+![Docker Hub](https://img.shields.io/docker/pulls/kipters/pokespeare)
+
 An API that, given a Pokémon name, returns its Shakespearean description.
 The main application code lives in `src/Pokespeare`.
 
@@ -70,6 +72,12 @@ Default env vars and configuration are in
 `src/Pokespeare/properties/launchProfile.json`, append the `--no-launch-profile`
 argument to ignore it or use `--launch-profile` to point to a different launch
 profile.
+
+Docker images for ARMv7, Aarch64 and x64 are available on Docker Hub:
+
+```shell
+docker pull kipters/pokespeare:latest
+```
 
 ## Deploying
 
