@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
 using Microsoft.OpenApi.Models;
 using PokeApi.Client;
 using Pokespeare.Common;
@@ -34,6 +36,9 @@ namespace Pokespeare
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+                .AddFeatureManagement()
+                .AddFeatureFilter<PercentageFilter>();
             services.AddControllers();
             services.AddHealthChecks();
             services.AddSwaggerGen(c =>

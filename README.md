@@ -122,3 +122,11 @@ values are `Development` and `Production` with the latter being the default.
 The only differences between them is that OpenAPI docs are only generated in
 `Development` and developer-friendly error messages are given in responses,
 including stack traces.
+
+### Feature Flags
+
+By default the application returns the first description in the list for any
+given species, but a feature flag exists to change this behavior into
+returning a random description among the ones for that species.
+Its activation filter can be changed from Configuration. It's currently set
+to enabled for 50% of requests.
