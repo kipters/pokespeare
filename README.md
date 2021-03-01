@@ -59,6 +59,18 @@ To produce deployable artifacts run `dotnet publish src/Pokespeare`.
 
 Refer to the respective `--help` subcommands for options.
 
+## Running
+
+When running on Visual Studio Code or Codespaces a launch profile is already 
+provided and configured, just press F5.
+
+From the command line, run `dotnet run -p src/Pokespeare`.
+
+Default env vars and configuration are in 
+`src/Pokespeare/properties/launchProfile.json`, append the `--no-launch-profile`
+argument to ignore it or use `--launch-profile` to point to a different launch
+profile.
+
 ## Deploying
 
 A Dockerfile is provided for builds. It uses the following build arguments:
