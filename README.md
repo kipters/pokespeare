@@ -1,6 +1,7 @@
 # Pokespeare
 
 An API that, given a Pokémon name, returns its Shakespearean description.
+The main application code lives in `src/Pokespeare`.
 
 ## Commit messages
 
@@ -130,3 +131,8 @@ given species, but a feature flag exists to change this behavior into
 returning a random description among the ones for that species.
 Its activation filter can be changed from Configuration. It's currently set
 to enabled for 50% of requests.
+
+## Logging
+
+The project uses Serilog. Human-readable logs are output when running in
+`Development`. Otherwise, JSON-serialized structured logs are used.
